@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db";
 
-export const GET = async () => {
+export async function GET() {
   try {
 
     // Test de conexión a la base de datos
