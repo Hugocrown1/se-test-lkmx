@@ -5,6 +5,7 @@ export async function GET() {
     const users = await getUsers();
     return Response.json(users);
   } catch (error) {
+    console.error("Error retrieving users:", error);
     return Response.json({ error: "Failed to retrieve users" });
   }
 }
@@ -15,6 +16,7 @@ export async function POST(request: Request) {
     const newUser = await createUser(userData);
     return Response.json(newUser, { status: 201 });
   } catch (error) {
+    console.error("Error creating user:", error);
     return Response.json({ error: "Failed to create user" });
   }
 }
