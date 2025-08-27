@@ -42,7 +42,8 @@ export const useUsers = (): UseUsersReturn => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add user");
+        console.error("Failed to add user:", response.statusText);
+        return false;
       }
 
       const newUser = await response.json();
