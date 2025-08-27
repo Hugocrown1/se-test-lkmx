@@ -5,8 +5,16 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
+    "build:prod": "next build",
+    "build:debug": "next build --debug",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "type-check": "tsc --noEmit",
+    "docker:up": "docker-compose up --build -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:migrate": "docker-compose exec nextjs-app npx prisma migrate deploy",
+    "docker:studio": "docker-compose exec nextjs-app npx prisma studio"
   },
   "dependencies": {
     "@prisma/client": "^6.14.0",
