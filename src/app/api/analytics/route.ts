@@ -5,6 +5,8 @@ export async function GET() {
         const totalUsers = await prisma.user.count();
         return Response.json({ totalUsers });
     } catch (error) {
+        console.error("Error retrieving analytics data:", error);
+
         return Response.json({ error: "Failed to retrieve analytics data" });
     }
 }
