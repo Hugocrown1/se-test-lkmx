@@ -1,0 +1,68 @@
+services:
+  # Base de datos PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: nextjs-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # Aplicación Next.js
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED}
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+    # Comando que espera a la base de datos
+    command: >
+      sh -c "
+        echo 'Esperando a PostgreSQL...' &&
+        until nc -z postgres 5432; do
+          echo 'PostgreSQL no está listo - esperando...'
+          sleep 2
+        done &&
+        echo 'PostgreSQL está listo!' &&
+        echo 'Ejecutando migraciones...' &&
+        npx prisma migrate deploy &&
+        echo 'Ejecutando seed...' &&
+        npx prisma db seed || echo 'Seed falló o no configurado' &&
+        echo 'Iniciando aplicación...' &&
+        node server.js
+      "
+
+# Volúmenes persistentes
+volumes:
+  postgres_data:
+    driver: local
+
+# Red para comunicación entre contenedores
+networks:
+  app-network:
+    driver: bridge
