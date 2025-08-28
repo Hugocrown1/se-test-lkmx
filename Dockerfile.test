@@ -1,0 +1,25 @@
+# Dockerfile para ejecutar tests
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Instalar dependencias del sistema
+RUN apk add --no-cache libc6-compat
+
+# Copiar archivos de configuración
+COPY package.json package-lock.json* ./
+COPY tsconfig.json ./
+COPY jest.config.js ./
+COPY jest.setup.js ./
+
+# Instalar dependencias
+RUN npm ci
+
+# Copiar código fuente
+COPY . .
+
+# Generar cliente Prisma
+RUN npx prisma generate
+
+# Comando por defecto para ejecutar tests
+CMD ["npm", "test"]
