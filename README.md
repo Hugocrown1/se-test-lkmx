@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SE Test LKMX - User Management App - Por: Hugo Corona 
 
-## Getting Started
+Aplicación web de gestión de usuarios desarrollada con **Next.js 15**, **TypeScript**, **Prisma ORM** y **PostgreSQL**.
 
-First, run the development server:
+## 🚀 Inicio Rápido (Ejecución Local)
 
+### Requisitos
+- Node.js 18+
+- Docker y Docker Compose
+
+### Opción 1: Desarrollo Local
 ```bash
+# 1. Clonar repositorio
+git clone https://github.com/Hugocrown1/se-test-lkmx
+cd se-test-lkmx
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar base de datos local PostgreSQL
+createdb test_lkmx
+
+# 4. Configurar variables de entorno
+cp .env.example .env.local
+# Editar .env.local con tu configuración local
+
+# 5. Migrar y poblar base de datos
+npx prisma migrate dev --name init
+npm run db:seed
+
+# 6. Ejecutar aplicación
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Opción 2: Docker (Recomendado)
+```bash
+# 1. Clonar repositorio
+git clone https://github.com/Hugocrown1/se-test-lkmx
+cd se-test-lkmx
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# 2. Configurar variables de entorno
+cp .env.example .env.local
+# Editar .env.local con tu configuración local
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 3. Ejecutar con script automatizado (Windows)
+.\start-app.ps1
 
-## Learn More
+# O manualmente:
+docker-compose up --build
+```
 
-To learn more about Next.js, take a look at the following resources:
+**Accede a**: [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+La base de datos se inicializa automáticamente con 3 usuarios de prueba.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧪 Pruebas
 
-## Deploy on Vercel
+```bash
+# Pruebas locales
+npm test
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Pruebas en Docker
+npm run test:docker
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## � Stack Técnico
+
+- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS 4
+- **Backend**: Next.js API Routes, Prisma ORM  
+- **Base de datos**: PostgreSQL 15
+- **Testing**: Jest
+- **Contenedorización**: Docker & Docker Compose
+
+## �️ API Endpoints
+
+### `GET /api/users`
+Obtiene todos los usuarios
+```json
+[{"id": 1, "name": "Juan Pérez", "email": "juan.perez@example.com"}]
+```
+
+### `POST /api/users` 
+Crea un nuevo usuario
+```json
+{"name": "Nuevo Usuario", "email": "nuevo@example.com"}
+```
+
+## � Scripts Principales
+
+- `npm run dev` - Servidor de desarrollo
+- `npm run build` - Build de producción  
+- `npm run test` - Ejecutar pruebas
+- `npm run test:docker` - Pruebas en Docker
