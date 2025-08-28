@@ -10,7 +10,10 @@ const initialState = {
 };
 
 const UsersTable = () => {
+  // Lógica del formulario
   const { formState, onInputChange, onResetForm } = useForm(initialState);
+
+  // Lógica de usuarios
   const { usersList, isLoading, addUser } = useUsers();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -23,6 +26,8 @@ const UsersTable = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // Validación del formulario
+    // Tambien se podria hacer una validación más completa  pasandole funciones de validacion a useForm
     if (!formState.name.trim() || !formState.email.trim()) {
       console.error("Name and email are required");
       return;
