@@ -8,7 +8,7 @@ interface UseFormReturn<T> {
   onResetForm: () => void;
 }
 
-function useForm<T extends Record<string, any>>(
+function useForm<T extends Record<string, unknown>>(
   initialForm: T
 ): UseFormReturn<T> {
   const [formState, setFormState] = useState<T>(initialForm);
