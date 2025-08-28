@@ -6,22 +6,23 @@
     "seed": "npx tsx prisma/seed.ts"
   },
   "scripts": {
+    "test": "jest",
+    "test:docker": "docker-compose --profile testing run --rm tests",
+    "test:docker:build": "docker-compose --profile testing build tests && docker-compose --profile testing run --rm tests",
+    "test:docker:watch": "docker-compose --profile testing run --rm tests npm run test -- --watch",
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "build:prod": "next build",
     "start": "next start",
     "lint": "eslint",
-    
     "db:up": "docker-compose up postgres -d",
     "db:down": "docker-compose down",
     "db:migrate": "npx prisma migrate deploy",
     "db:seed": "npx prisma db seed",
     "db:studio": "npx prisma studio",
     "db:reset": "npx prisma migrate reset --force",
-    
     "dev:db": "powershell -ExecutionPolicy Bypass -File ./start-dev.ps1 && npm run dev",
     "dev:full": "powershell -ExecutionPolicy Bypass -File ./start-app.ps1",
-    
     "docker:logs": "docker-compose logs -f",
     "docker:stop-app": "docker-compose stop nextjs-app"
   },
@@ -34,12 +35,18 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@jest/globals": "^30.1.1",
     "@tailwindcss/postcss": "^4",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/supertest": "^6.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
+    "jest": "^30.1.1",
+    "jest-environment-node": "^30.1.1",
+    "supertest": "^7.1.4",
     "tailwindcss": "^4",
     "tsx": "^4.7.0",
     "typescript": "^5"
