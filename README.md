@@ -73,6 +73,18 @@ npm run test:docker
 
 ## �️ API Endpoints
 
+### `GET /api/analytics`
+Obtiene estadísticas básicas de la aplicación
+```json
+{"totalUsers": 3}
+```
+
+### `GET /api/health`
+Verifica el estado de la aplicación y conexión a la base de datos
+```json
+{"ok": true}
+```
+
 ### `GET /api/users`
 Obtiene todos los usuarios
 ```json
@@ -84,6 +96,8 @@ Crea un nuevo usuario
 ```json
 {"name": "Nuevo Usuario", "email": "nuevo@example.com"}
 ```
+
+
 
 ## � Scripts Principales
 
