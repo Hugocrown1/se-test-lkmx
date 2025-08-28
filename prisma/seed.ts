@@ -3,8 +3,6 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  console.log('🌱 Iniciando seed...')
-
   // Verificar si ya hay usuarios
   const userCount = await prisma.user.count()
   
@@ -35,7 +33,6 @@ async function main() {
     }),
   ])
 
-  console.log(`✅ Creados ${users.length} usuarios:`)
   users.forEach(user => {
     console.log(`   - ${user.name} (${user.email})`)
   })
@@ -46,7 +43,6 @@ main()
     await prisma.$disconnect()
   })
   .catch(async (e) => {
-    console.error('❌ Error durante el seed:', e)
     await prisma.$disconnect()
     process.exit(1)
   })
